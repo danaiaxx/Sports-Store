@@ -1,0 +1,51 @@
+﻿@model IEnumerable<string>
+
+<style>
+    div.d-grid a.btn.category-btn {
+        font-size: 16px;
+        border-radius: 8px;
+        padding: 12px 20px;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        margin-bottom: 10px;
+        border: 1px solid transparent;
+        color: black !important;
+    }
+
+        div.d-grid a.btn.category-btn.btn-primary {
+            background-color: #dc3545;
+            color: white !important;
+            border: 1px solid #dc3545;
+        }
+
+        div.d-grid a.btn.category-btn.btn-outline-secondary {
+            background-color: white;
+            color: black !important;
+            border: 1px solid #6c757d;
+        }
+
+        div.d-grid a.btn.category-btn:hover,
+        div.d-grid a.btn.category-btn:focus {
+            background-color: #6c757d;
+            color: white !important;
+        }
+</style>
+
+<div class="d-grid gap-2" id="categories">
+    <a class="btn category-btn @(string.IsNullOrEmpty(ViewBag.SelectedCategory as string) ? "btn-primary" : "btn-outline-secondary") btn-lg"
+       asp-action="Index" asp-controller="Home" asp-route-category="">
+        All Products
+    </a>
+
+    @foreach (string category in Model ?? Enumerable.Empty<string>())
+    {
+        <a class="btn category-btn @(category == ViewBag.SelectedCategory
+                                  ? "btn-primary" : "btn-outline-secondary")"
+       asp-action="Index"
+       asp-controller="Home"
+       asp-route-category="@category"
+       asp-route-productPage="1">
+        @category
+    </a>
+        }
+</div>

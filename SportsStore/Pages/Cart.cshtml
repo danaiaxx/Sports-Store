@@ -1,0 +1,64 @@
+﻿@page
+@model CartModel
+
+<style>
+    .btn-continue-shopping, .btn-checkout {
+        padding: 10px 20px !important;
+    }
+
+        .btn-continue-shopping:active, .btn-checkout:active {
+            background-color: #dc3545 !important;
+            border-color: #dc3545 !important;
+            color: white !important;
+        }
+
+        .btn-continue-shopping:hover, .btn-checkout:hover {
+            background-color: #6c757d !important;
+            border-color: #6c757d !important;
+            color: white !important;
+        }
+</style>
+
+<h2>Your cart</h2>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Quantity</th>
+            <th>Item</th>
+            <th class="text-right">Price</th>
+            <th class="text-right">Subtotal</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var line in Model.Cart?.Lines ?? Enumerable.Empty<CartLine>())
+        {
+            <tr>
+                <td class="text-center">@line.Quantity</td>
+                <td class="text-left">@line.Product.Name</td>
+                <td class="text-right">@line.Product.Price.ToString("c")</td>
+                <td class="text-right">
+                    @((line.Quantity * line.Product.Price).ToString("c"))
+                </td>
+                <td class="text-center">
+                    <a class="btn btn-sm btn-danger" href="/Cart?handler=Remove&productId=@line.Product.ProductID&returnUrl=@Model.ReturnUrl">
+                        Remove
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-right">Total:</td>
+            <td class="text-right">
+                @Model.Cart?.ComputeTotalValue().ToString("c")
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="text-center">
+    <a class="btn btn-primary btn-continue-shopping" href="@Model.ReturnUrl">Continue Shopping</a>
+    <a class="btn btn-outline-primary btn-checkout" href="/Order/Checkout">Checkout</a>
+</div>

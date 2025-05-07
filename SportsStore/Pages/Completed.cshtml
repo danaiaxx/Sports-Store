@@ -1,0 +1,16 @@
+﻿@page
+@model SportsStore.Models.Order
+
+<div class="text-center">
+    <h2>Order Success</h2>
+    <p>Thanks for placing your order!</p>
+    <p>We'll ship your products as soon as possible.</p>
+    <a class="btn btn-primary" href="/">
+        Return to Store
+    </a>
+</div>
+
+@functions {
+    [BindProperty(SupportsGet = true)]
+    public string? OrderId { get; set; }
+}
